@@ -13,7 +13,7 @@ public class Resuelta6_8 {
             entrada = entrada.substring(prefijo.length());
         } else if (entrada.endsWith(sufijo)) {
             idiomaJavalandia=true;
-            entrada= entrada.substring(0, entrada.length()-sufijo.length());
+            entrada= entrada.substring(0, entrada.length() - sufijo.length());
         }
             if(idiomaJavalandia){
                 entrada=entrada.strip();//quitamos los espacios antes y después
