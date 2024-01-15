@@ -12,40 +12,47 @@ public class Actividad6_14 {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String[] contactos = new String[1];
         // Pongo un valor grande para no tener que pensar en la función. Después lo arreglare.
         int numContactos = 0; //Al iniciar tenemos 0 contactos porque no se han registrado.
 
         while (true) {
             //Usamos ese bucle para volver a empezar y volver a pedir una opción.
-            System.out.println("AGENDA");
-            System.out.println("a) Añadir nuevo contacto.");
+            System.out.println("\n AGENDA");
+            System.out.println("\na) Añadir nuevo contacto.");
             System.out.println("b) Buscar teléfono.");
             System.out.println("c) Mostrar todos los contactos ordenados alfabéticamente.");
             System.out.println("d) Salir.");
             //De este último introducimos el dato en la máquina.
             System.out.print("Seleccione una opción: ");
-            char opcion = scanner.next().charAt(0); //función buscada por internet :)
+            char opcion = sc.next().charAt(0); //función buscada por internet :)
 
             //Lo mejor en este caso, es que para cada opción del menú crear una función.
             //Se usa char porque solo es una letra.
 
             switch (opcion) {
-                case 'a':
+                case 'a':{
                     //Cada vez que se añade un contacto el contador numContactos se ha de incrementar.
-                    masContactos(contactos, numContactos);
+                    agregarContacto(contactos,numContactos);
                     numContactos++;
-                    break;
-                case 'b':
+                    break;}
+
+                case 'b':{
+
                     buscarTelefono(contactos, numContactos);
-                    break;
-                case 'c':
+                    break;}
+
+                case 'c':{
+
                     mostrarContactos(contactos, numContactos);
-                    break;
-                case 'd':
+                    break;}
+
+                case 'd': {
+
                     System.out.println("Saliendo...");
                     System.exit(0); //Lo he buscado para salir del bucle.
+                }
                 default:
                     System.out.println("Error. Intentelo de nuevo.");
             }
@@ -53,37 +60,47 @@ public class Actividad6_14 {
     }
 
     //Función para opcion a)
-    static String[] masContactos(String[] contactos, int numContactos) {
+    static String[] agregarContacto(String[] contactos, int numContactos) {
         Scanner sc = new Scanner(System.in);
 
         // Duplicar la capacidad de la array si está llena
         if (numContactos == contactos.length) {
-
-            contactos = Arrays.copyOf(contactos, contactos.length * 2);
+            contactos = Arrays.copyOf(contactos, contactos.length + 1);
         }
 
-        System.out.print("Ingrese el nombre: ");
-        String nombre = sc.next();
-        System.out.print("Ingrese el teléfono: ");
-        String telefono = sc.next();
+        System.out.print("Introduzca el nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("Introduzca el teléfono: ");
+        String telefono = sc.nextLine();
 
         contactos[numContactos] = nombre + ":" + telefono;
-        System.out.println(Arrays.toString(contactos));
-        return contactos;
+        numContactos++;
 
-        }
+        Arrays.sort(contactos, 0, numContactos); // Ordenar alfabéticamente por nombre
+        System.out.println("Contacto agregado correctamente.");
+
+        return contactos;
+    }
 
 
     //Función para opcion b)
     static void buscarTelefono( String[] contactos, int numContactos) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Ingrese el nombre del contacto a buscar: ");
-        String nombreBuscar = sc.next();
 
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Ingrese el nombre del contacto a buscar: ");
+        String buscarNombre = sc.nextLine();
+
+        //Recorremos la array
         for (int i = 0; i < numContactos; i++) {
-            if (contactos[i] != null && contactos[i].startsWith(nombreBuscar + ":")) {
-                String[] nombre = contactos[i].split(":");
-                System.out.println("El teléfono de " + nombre[0] + " es: " + nombre[1]);
+
+            String[] partes = contactos[i].split(":");
+            //Split.Divide la cadena usando : en 2 partes
+            String nombre = partes[0];
+            String telefono = partes[1];
+
+            if (nombre.equalsIgnoreCase(buscarNombre)) {
+                System.out.println("Teléfono de " + nombre + ": " + telefono);
                 return;
             }
         }
@@ -93,13 +110,10 @@ public class Actividad6_14 {
 
     //Función para opcion c)
     static void mostrarContactos(String[] contactos, int numContactos) {
-        // Filtrar los elementos no nulos antes de ordenar
-        String[] contactosNoNulos = Arrays.copyOfRange(contactos, 0, numContactos);
-        Arrays.sort(contactosNoNulos);
-
-        System.out.println("\n \n Lista de contactos ordenados alfabéticamente:");
+        System.out.println("Lista de contactos ordenados alfabéticamente: \n");
+        //recorremos toda la Array que estaba previamente ordenada y los mostramos en pantalla
         for (int i = 0; i < numContactos; i++) {
-            System.out.println(contactosNoNulos[i]);
+            System.out.println(contactos[i]);
         }
     }
 }
@@ -114,3 +128,6 @@ public class Actividad6_14 {
 
 //COSAS QUE MEJORAR:
 // - La array de contactos deberá ampliarse si se apmlia el número de contactos.
+// - No me salen los contactos en pantalla
+// - No consigo tener los contactos recopilados en el programa para que otras funciones los puedan usar.
+
