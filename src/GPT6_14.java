@@ -8,7 +8,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Actividad6_14 {
+public class GPT6_14 {
     private static String[] contactos = new String[10]; // Puedes ajustar el tamaño según tus necesidades.
     private static int numContactos = 0;
 
