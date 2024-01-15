@@ -63,7 +63,7 @@ public class Actividad6_12 {
                 }
             }
             //Empezamos con 7 intentos, cada vez que se falle, se resta 1 intento.
-            if (!acierto) {
+            if (!acierto) { //Si no hay aciertos se restan intentos y se suman las letras a letrasFalladas
                 intentos--;
                 letrasFalladas += letra + ", ";
                 System.out.println("La letra " + letra + " no es correcta");
@@ -82,16 +82,16 @@ public class Actividad6_12 {
 
             boolean palabraCompletada = true;
 
-            for (char c : palabra) {
+            for (char c : palabra) {//Recorremos array palabra, si encuentra un guión bajo, la palabra no está completa
                 if (c == '_') {
                     palabraCompletada = false;
                     break;
                 }
             }
 
-            if (palabraCompletada) {
-                System.out.println("¡Felicidades! Has adivinado la palabra.");
-                break;
+            if (palabraCompletada) {//si se completa la palabra, se da la enorabuena.
+                System.out.println("Felicidades! Has adivinado la palabra.");
+                break;//No sabía como hacerlo sin el break.
             }
         }
         //Mensaje si pierdes.
@@ -109,3 +109,8 @@ public class Actividad6_12 {
 // he decidido no complicarlo más...
 //2. Que no permita repetir las letras erroneas.
 //3. Que separe las letras erróneas con espacios. --> OK
+
+//Se me dificulta:
+//1. Los booleanos... aún no hay manera.
+//2.No usar el break.
+//3.
