@@ -112,7 +112,7 @@ public class Actividad6_14 {
     static void mostrarContactos(String[] contactos, int numContactos) {
         System.out.println("Lista de contactos ordenados alfabéticamente: \n");
         //recorremos toda la Array que estaba previamente ordenada y los mostramos en pantalla
-        for (int i = 0; i < numContactos; i++) {
+        for (int i = 0; i < numContactos ; i++) {
             System.out.println(contactos[i]);
         }
     }
