@@ -1,125 +1,111 @@
-import java.util.Scanner;
-
 //Juego del ahorcado.
 //1. Intentar que no se vea la palabra que se escribe
-//2. Se muestren guiones para la cantidad de letras que hay.
-//3. El jugador escribirá letras y se irán colocando en sus lugares. Los lugares no acertados seguirán con guiones.
+//2. Se muestren guiones para la cantidad de letras que hay.--> OK
+//3. El jugador escribirá letras y se irán colocando en sus lugares. Los lugares no acertados seguirán con guiones. -->Ok
 //4. Se debe mostrar las letras acertadas y las utilizadas.
-//5. El jugador tendrá 7 intentos erróneos
-//6. Finaliza al acertar la palabra o al consumir los 7 errores.
-import java.util.Scanner;
+//5. El jugador tendrá 7 intentos erróneos --> OK
+//6. Finaliza al acertar la palabra o al consumir los 7 errores. --> Ok
+
 import java.util.Scanner;
 
 public class Actividad6_12 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        String palabraA;
 
-        // Palabra secreta
-        System.out.println("Jugador 1. Introduzca la palabra: ");
-        String palabraSecreta = scanner.nextLine().toLowerCase();
+        //Vamos a introducir la palabra que será censurada
+        System.out.println("Jugador A. Inroduzca la palabra: ");
+        palabraA = sc.next(); //Usaremos solo next porque solo se tiene que guardar una palabra.
 
-        // Palabra ocultada por _
-        char[] palabraOculta = new char[palabraSecreta.length()];
-        for (int i = 0; i < palabraOculta.length; i++) {
-            palabraOculta[i] = '_';
+        char[] palabraAArray = palabraA.toCharArray();
+        //Vamos a ocultar la palabra. Para esto convertiremos la palabra en un array y
+        // cambiaremos todos caracteres por guión bajo.
+
+        char[] palabra = new char[palabraA.length()];
+        //Primero creamos un array vacío de la misma longitud de la palabra.
+        //Luego creamos un bucle desde 0(inicio) hasta la largaría de los carácteres de la palabra.
+        //Este bucle lo que hará es poner guión bajo en todas las letras.
+        for (int i = 0; i < palabraA.length(); i++){
+            palabra[i] = '_';
         }
+        //Mostramos en pantalla
+        System.out.println("La palabra secreta tiene " + palabraA.length() + " letras.");
+        System.out.println(palabra);
+        aciertos(palabra,palabraAArray,palabraA);
+        //palabra A, para mostrarla uniamente en el resultado final. Si no me tocará gacer un Array.toString y
+        // no se vería tan bien.
+        // palabra es el array con guiones bajos
+        // palabraAArray es el array formado por los caractéres de la palabra.
+    }
+    static void aciertos(char[] palabra, char[] palabraAArray, String palabraA){
+        Scanner sc = new Scanner(System.in);
+        int intentos= 7;
+        String letrasFalladas = "";
+        //Se requerirá un bucle para poner los aciertos en su lugar correspondiente.
 
-        // Variables
-        int intentosRestantes = 7;
-        char[] letrasIncorrectas = new char[7];
-        int indiceLetrasIncorrectas = 0;
+        while (intentos > 0) {
+
+            System.out.println("Jugador B: Escriba una leta (Tienes permitido " + intentos + " errores): ");
+            char letra = sc.next().charAt(0);
 
 
-        while (intentosRestantes > 0 && !esPalabraAdivinada(palabraOculta)) {
-            System.out.println("Palabra oculta: " + new String(palabraOculta));
-            System.out.println("Intentos restantes: " + intentosRestantes);
-            System.out.print("Letras incorrectas: ");
-            mostrarLetrasIncorrectas(letrasIncorrectas, indiceLetrasIncorrectas);
+            boolean acierto = false;// Empezamos así porque cuando se acierte, será true.
+            //Si empezamos con 7 intentos y acabamos en 0.
+            //Pedimos al jugador que introduzca un carácter.
 
-            // Jugador 2 intenta adivinar una letra
-            System.out.println("Jugador 2, introduce una letra:");
-            char letra = scanner.next().toLowerCase().charAt(0);
-
-            // Verificar si la letra ya fue intentada
-            if (letraYaIntentada(letra, letrasIncorrectas, indiceLetrasIncorrectas) ||
-                    letraYaAdivinada(letra, palabraOculta)) {
-                System.out.println("Ya has intentado esa letra. Prueba con otra.");
-                continue;
+            for (int i = 0; i < palabra.length; i++) {
+                //Bucle que recorre la array para que cuuando una letra introducida coincida con una de la palabra
+                // se cambie por el caracter que toca.
+                if ( palabraAArray[i] == letra) {
+                    palabra[i] = letra;
+                    acierto = true;
+                    //Nos cuenta un acierto
+                }
             }
-
-            // Verificar si la letra está en la palabra secreta
-            boolean acierto = actualizarPalabraOculta(letra, palabraSecreta, palabraOculta);
-
-            // Actualizar letras incorrectas y disminuir intentos si no hay acierto
+            //Empezamos con 7 intentos, cada vez que se falle, se resta 1 intento.
             if (!acierto) {
-                letrasIncorrectas[indiceLetrasIncorrectas] = letra;
-                indiceLetrasIncorrectas++;
-                intentosRestantes--;
+                intentos--;
+                letrasFalladas += letra + ", ";
+                System.out.println("La letra " + letra + " no es correcta");
+            }
+            System.out.println("Letras falladas: " + letrasFalladas);
+            
+
+            System.out.println(palabra);
+
+            //Mensaje si aciertas la palabra
+
+            //if (!new String(palabra).contains("_")) {
+               // System.out.println("Felicidades! Has adivinado la palabra.");
+              //  break;
+            //} Lo he buscado por internet, el que he puesto lo he pensado después.
+
+            boolean palabraCompletada = true;
+
+            for (char c : palabra) {
+                if (c == '_') {
+                    palabraCompletada = false;
+                    break;
+                }
+            }
+
+            if (palabraCompletada) {
+                System.out.println("¡Felicidades! Has adivinado la palabra.");
+                break;
             }
         }
-
-        // Mostrar resultado final
-        if (esPalabraAdivinada(palabraOculta)) {
-            System.out.println("¡Felicidades! Has adivinado la palabra: " + palabraSecreta);
-        } else {
-            System.out.println("¡Lo siento! La palabra correcta era: " + palabraSecreta);
+        //Mensaje si pierdes.
+        if (intentos == 0) {
+            System.out.println("Has perdido. Se acabaron los intentos. La palabra era: " + palabraA);
         }
-
-        scanner.close();
-    }
-
-    // Función para verificar si la letra ya fue intentada
-    private static boolean letraYaIntentada(char letra, char[] letrasIncorrectas, int indice) {
-        for (int i = 0; i < indice; i++) {
-            if (letrasIncorrectas[i] == letra) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Función para verificar si la letra ya fue adivinada
-    private static boolean letraYaAdivinada(char letra, char[] palabraOculta) {
-        for (char c : palabraOculta) {
-            if (c == letra) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Función para actualizar la palabra oculta con la letra adivinada
-    private static boolean actualizarPalabraOculta(char letra, String palabraSecreta, char[] palabraOculta) {
-        boolean acierto = false;
-        for (int i = 0; i < palabraSecreta.length(); i++) {
-            if (palabraSecreta.charAt(i) == letra) {
-                palabraOculta[i] = letra;
-                acierto = true;
-            }
-        }
-        return acierto;
-    }
-
-    // Función para mostrar las letras incorrectas
-    private static void mostrarLetrasIncorrectas(char[] letrasIncorrectas, int indice) {
-        for (int i = 0; i < indice; i++) {
-            System.out.print(letrasIncorrectas[i] + " ");
-        }
-        System.out.println();
-    }
-
-    // Función para verificar si se ha adivinado la palabra
-    private static boolean esPalabraAdivinada(char[] palabraOculta) {
-        for (char c : palabraOculta) {
-            if (c == '_') {
-                return false;
-            }
-        }
-        return true;
     }
 }
+
+
 //------------------------------------------------------------------
+
+//COSAS QUE MEJORAR.
 //1. No está la forma de escribirlo en invisible. Se me ha complicado bastante el ejercicio y
 // he decidido no complicarlo más...
-//2. Ok. He convertido la palabra en array y he codificado todos sus elementos en _
-//3.  He buscado la funcion : char letra = scanner.next().toLowerCase().charAt(0);
+//2. Que no permita repetir las letras erroneas.
+//3. Que separe las letras erróneas con espacios. --> OK
