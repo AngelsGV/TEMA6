@@ -8,39 +8,114 @@ import java.util.Scanner;
 //5. El jugador tendrá 7 intentos erróneos
 //6. Finaliza al acertar la palabra o al consumir los 7 errores.
 import java.util.Scanner;
+import java.util.Scanner;
+
 public class Actividad6_12 {
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        String psswd, palabra;
-        //Palabra secreta.
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Jugador 1 introduce la palabra secreta
         System.out.println("Jugador 1. Introduzca la palabra: ");
-        psswd = sc.nextLine();
-        System.out.println("La contraseña tiene " + psswd.length() + " caracteres");
-        char[] letras = new char[psswd.length()];
-        for (int i = 0; i < letras.length; i++) {
-            letras[i] = '_';
+        String palabraSecreta = scanner.nextLine().toLowerCase();
+
+        // Inicializar palabra oculta con guiones bajos
+        char[] palabraOculta = new char[palabraSecreta.length()];
+        for (int i = 0; i < palabraOculta.length; i++) {
+            palabraOculta[i] = '_';
         }
-        System.out.println(new String(letras));
 
-        //Aquí estoy intentando remplazar toda la palabra secreta por guiones bajos.
-        //He decidido crear un array con las letras de la palabra y convertirlas en _
+        // Variables para seguimiento de intentos y letras incorrectas
+        int intentosRestantes = 7;
+        char[] letrasIncorrectas = new char[7];
+        int indiceLetrasIncorrectas = 0;
 
-        System.out.println("Jugador 2. Palabra: ");
-        palabra = sc.nextLine();
-        while (!palabra.equals(psswd)){
-            String pista = "";
-            for (int i=0; i < psswd.length();i++){
-                if (psswd.charAt(i) == palabra.charAt(i)){
-                    pista += psswd.charAt(i);
-                } else {
-                    pista += '_';
-                }
+        // Juego
+        while (intentosRestantes > 0 && !esPalabraAdivinada(palabraOculta)) {
+            System.out.println("Palabra oculta: " + new String(palabraOculta));
+            System.out.println("Intentos restantes: " + intentosRestantes);
+            System.out.print("Letras incorrectas: ");
+            mostrarLetrasIncorrectas(letrasIncorrectas, indiceLetrasIncorrectas);
+
+            // Jugador 2 intenta adivinar una letra
+            System.out.println("Jugador 2, introduce una letra:");
+            char letra = scanner.next().toLowerCase().charAt(0);
+
+            // Verificar si la letra ya fue intentada
+            if (letraYaIntentada(letra, letrasIncorrectas, indiceLetrasIncorrectas) ||
+                    letraYaAdivinada(letra, palabraOculta)) {
+                System.out.println("Ya has intentado esa letra. Prueba con otra.");
+                continue;
             }
-            System.out.println(pista);
-            System.out.println("Jugador 2. Introduzca la palabra de nuevo: ");
-            palabra = new Scanner(System.in).next(); // leemos otra palabra
+
+            // Verificar si la letra está en la palabra secreta
+            boolean acierto = actualizarPalabraOculta(letra, palabraSecreta, palabraOculta);
+
+            // Actualizar letras incorrectas y disminuir intentos si no hay acierto
+            if (!acierto) {
+                letrasIncorrectas[indiceLetrasIncorrectas] = letra;
+                indiceLetrasIncorrectas++;
+                intentosRestantes--;
+            }
         }
-        System.out.println("Acertaste!");
+
+        // Mostrar resultado final
+        if (esPalabraAdivinada(palabraOculta)) {
+            System.out.println("¡Felicidades! Has adivinado la palabra: " + palabraSecreta);
+        } else {
+            System.out.println("¡Lo siento! La palabra correcta era: " + palabraSecreta);
+        }
+
+        scanner.close();
+    }
+
+    // Función para verificar si la letra ya fue intentada
+    private static boolean letraYaIntentada(char letra, char[] letrasIncorrectas, int indice) {
+        for (int i = 0; i < indice; i++) {
+            if (letrasIncorrectas[i] == letra) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Función para verificar si la letra ya fue adivinada
+    private static boolean letraYaAdivinada(char letra, char[] palabraOculta) {
+        for (char c : palabraOculta) {
+            if (c == letra) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Función para actualizar la palabra oculta con la letra adivinada
+    private static boolean actualizarPalabraOculta(char letra, String palabraSecreta, char[] palabraOculta) {
+        boolean acierto = false;
+        for (int i = 0; i < palabraSecreta.length(); i++) {
+            if (palabraSecreta.charAt(i) == letra) {
+                palabraOculta[i] = letra;
+                acierto = true;
+            }
+        }
+        return acierto;
+    }
+
+    // Función para mostrar las letras incorrectas
+    private static void mostrarLetrasIncorrectas(char[] letrasIncorrectas, int indice) {
+        for (int i = 0; i < indice; i++) {
+            System.out.print(letrasIncorrectas[i] + " ");
+        }
+        System.out.println();
+    }
+
+    // Función para verificar si se ha adivinado la palabra
+    private static boolean esPalabraAdivinada(char[] palabraOculta) {
+        for (char c : palabraOculta) {
+            if (c == '_') {
+                return false;
+            }
+        }
+        return true;
     }
 }
 //------------------------------------------------------------------
