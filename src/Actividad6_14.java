@@ -13,7 +13,8 @@ public class Actividad6_14 {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        String[] contactos = new String[10];
+        String[] contactos = new String[100];
+        // Pongo un valor grande para no tener que pensar en la función. Después lo arreglare.
         int numContactos = 0; //Al iniciar tenemos 0 contactos porque no se han registrado.
 
         while (true) {
@@ -23,40 +24,42 @@ public class Actividad6_14 {
             System.out.println("b) Buscar teléfono.");
             System.out.println("c) Mostrar todos los contactos ordenados alfabéticamente.");
             System.out.println("d) Salir.");
+            //De este último introducimos el dato en la máquina.
             System.out.print("Seleccione una opción: ");
+            char opcion = scanner.next().charAt(0); //función buscada por internet :)
 
-            char opcion = scanner.next().charAt(0);
             //Lo mejor en este caso, es que para cada opción del menú crear una función.
+            //Se usa char porque solo es una letra.
 
             switch (opcion) {
                 case 'a':
+                    //Cada vez que se añade un contacto el contador numContactos se ha de incrementar.
                     añadirContacto(contactos, numContactos);
                     numContactos++;
                     break;
                 case 'b':
-                    buscarTelefono(scanner, contactos, numContactos);
+                    buscarTelefono(contactos, numContactos);
                     break;
                 case 'c':
                     mostrarContactos(contactos, numContactos);
                     break;
                 case 'd':
-                    System.out.println("Saliendo de la aplicación.");
-                    System.exit(0);
+                    System.out.println("Saliendo...");
+                    System.exit(0); //Lo he buscado para salir del bucle.
                 default:
-                    System.out.println("Opción no válida. Intente de nuevo.");
+                    System.out.println("Error. Intentelo de nuevo.");
             }
         }
     }
 
-    private static void añadirContacto(String[] contactos, int numContactos) {
+    static void añadirContacto(String[] contactos, int numContactos) {
+        Scanner sc= new Scanner(System.in);
         if (numContactos < contactos.length) {
 
-            Scanner scanner = new Scanner(System.in);
-
             System.out.print("Ingrese el nombre del contacto: ");
-            String nombre = scanner.next();
+            String nombre = sc.next();
             System.out.print("Ingrese el teléfono del contacto: ");
-            String telefono = scanner.next();
+            String telefono = sc.next();
 
             contactos[numContactos] = nombre + ":" + telefono;
 
@@ -66,9 +69,10 @@ public class Actividad6_14 {
         }
     }
 
-    private static void buscarTelefono(Scanner scanner, String[] contactos, int numContactos) {
+    static void buscarTelefono( String[] contactos, int numContactos) {
+        Scanner sc = new Scanner(System.in);
         System.out.print("Ingrese el nombre del contacto a buscar: ");
-        String nombreBuscar = scanner.next();
+        String nombreBuscar = sc.next();
 
         for (int i = 0; i < numContactos; i++) {
             if (contactos[i] != null && contactos[i].startsWith(nombreBuscar + ":")) {
@@ -81,10 +85,10 @@ public class Actividad6_14 {
         System.out.println("Contacto no encontrado.");
     }
 
-    private static void mostrarContactos(String[] contactos, int numContactos) {
+    static void mostrarContactos(String[] contactos, int numContactos) {
         Arrays.sort(contactos, 0, numContactos);
 
-        System.out.println("\nLista de contactos ordenados alfabéticamente:");
+        System.out.println("\n \n Lista de contactos ordenados alfabéticamente:");
         for (int i = 0; i < numContactos; i++) {
             System.out.println(contactos[i]);
         }
@@ -94,6 +98,9 @@ public class Actividad6_14 {
 
 //Lo único que tenía claro al empezar es que debo usar un switch para el menu.
 //Es lo primero que hago. Después iré agragando cosas.
+//1. Escribo el menú.
+//2. Switch con las opciones del menú.
+//3. Funciones de cada opción.
 
 
 //COSAS QUE MEJORAR:
