@@ -109,6 +109,7 @@ public class Actividad6_12 {
 // he decidido no complicarlo más...
 //2. Que no permita repetir las letras erroneas.
 //3. Que separe las letras erróneas con espacios. --> OK
+//4. Si se introduce más de una letra, pedirlo otra vez.
 
 //Se me dificulta:
 //1. Los booleanos... aún no hay manera.
