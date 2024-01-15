@@ -9,31 +9,35 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Actividad6_14 {
-    private static String[] contactos = new String[10]; // Puedes ajustar el tamaño según tus necesidades.
-    private static int numContactos = 0;
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
+        String[] contactos = new String[10];
+        int numContactos = 0; //Al iniciar tenemos 0 contactos porque no se han registrado.
 
         while (true) {
-            System.out.println("\n*** Menú de Agenda ***");
-            System.out.println("a) Añadir nuevo contacto");
-            System.out.println("b) Buscar teléfono de un contacto");
-            System.out.println("c) Mostrar todos los contactos ordenados alfabéticamente");
-            System.out.println("d) Salir");
+            //Usamos ese bucle para volver a empezar y volver a pedir una opción.
+            System.out.println("AGENDA");
+            System.out.println("a) Añadir nuevo contacto.");
+            System.out.println("b) Buscar teléfono.");
+            System.out.println("c) Mostrar todos los contactos ordenados alfabéticamente.");
+            System.out.println("d) Salir.");
             System.out.print("Seleccione una opción: ");
 
             char opcion = scanner.next().charAt(0);
+            //Lo mejor en este caso, es que para cada opción del menú crear una función.
 
             switch (opcion) {
                 case 'a':
-                    añadirContacto(scanner);
+                    añadirContacto(contactos, numContactos);
+                    numContactos++;
                     break;
                 case 'b':
-                    buscarTelefono(scanner);
+                    buscarTelefono(scanner, contactos, numContactos);
                     break;
                 case 'c':
-                    mostrarContactosOrdenados();
+                    mostrarContactos(contactos, numContactos);
                     break;
                 case 'd':
                     System.out.println("Saliendo de la aplicación.");
@@ -44,14 +48,17 @@ public class Actividad6_14 {
         }
     }
 
-    private static void añadirContacto(Scanner scanner) {
+    private static void añadirContacto(String[] contactos, int numContactos) {
         if (numContactos < contactos.length) {
+
+            Scanner scanner = new Scanner(System.in);
+
             System.out.print("Ingrese el nombre del contacto: ");
             String nombre = scanner.next();
             System.out.print("Ingrese el teléfono del contacto: ");
             String telefono = scanner.next();
 
-            contactos[numContactos++] = nombre + ":" + telefono;
+            contactos[numContactos] = nombre + ":" + telefono;
 
             System.out.println("Contacto añadido con éxito.");
         } else {
@@ -59,13 +66,13 @@ public class Actividad6_14 {
         }
     }
 
-    private static void buscarTelefono(Scanner scanner) {
+    private static void buscarTelefono(Scanner scanner, String[] contactos, int numContactos) {
         System.out.print("Ingrese el nombre del contacto a buscar: ");
         String nombreBuscar = scanner.next();
 
-        for (String contacto : contactos) {
-            if (contacto != null && contacto.startsWith(nombreBuscar + ":")) {
-                String[] partes = contacto.split(":");
+        for (int i = 0; i < numContactos; i++) {
+            if (contactos[i] != null && contactos[i].startsWith(nombreBuscar + ":")) {
+                String[] partes = contactos[i].split(":");
                 System.out.println("El teléfono de " + partes[0] + " es: " + partes[1]);
                 return;
             }
@@ -74,7 +81,7 @@ public class Actividad6_14 {
         System.out.println("Contacto no encontrado.");
     }
 
-    private static void mostrarContactosOrdenados() {
+    private static void mostrarContactos(String[] contactos, int numContactos) {
         Arrays.sort(contactos, 0, numContactos);
 
         System.out.println("\nLista de contactos ordenados alfabéticamente:");
@@ -83,3 +90,11 @@ public class Actividad6_14 {
         }
     }
 }
+//----------------------------------------------------------------------------------
+
+//Lo único que tenía claro al empezar es que debo usar un switch para el menu.
+//Es lo primero que hago. Después iré agragando cosas.
+
+
+//COSAS QUE MEJORAR:
+// - La array de contactos deberá ampliarse si se apmlia el número de contactos.

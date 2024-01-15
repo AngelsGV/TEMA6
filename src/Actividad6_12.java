@@ -110,6 +110,7 @@ public class Actividad6_12 {
 //2. Que no permita repetir las letras erroneas.
 //3. Que separe las letras erróneas con espacios. --> OK
 //4. Si se introduce más de una letra, pedirlo otra vez.
+//5. Pasarlo a minusculas para no tener problemas
 
 //Se me dificulta:
 //1. Los booleanos... aún no hay manera.
