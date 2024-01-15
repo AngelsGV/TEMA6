@@ -14,22 +14,22 @@ public class Actividad6_12 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Jugador 1 introduce la palabra secreta
+        // Palabra secreta
         System.out.println("Jugador 1. Introduzca la palabra: ");
         String palabraSecreta = scanner.nextLine().toLowerCase();
 
-        // Inicializar palabra oculta con guiones bajos
+        // Palabra ocultada por _
         char[] palabraOculta = new char[palabraSecreta.length()];
         for (int i = 0; i < palabraOculta.length; i++) {
             palabraOculta[i] = '_';
         }
 
-        // Variables para seguimiento de intentos y letras incorrectas
+        // Variables
         int intentosRestantes = 7;
         char[] letrasIncorrectas = new char[7];
         int indiceLetrasIncorrectas = 0;
 
-        // Juego
+
         while (intentosRestantes > 0 && !esPalabraAdivinada(palabraOculta)) {
             System.out.println("Palabra oculta: " + new String(palabraOculta));
             System.out.println("Intentos restantes: " + intentosRestantes);
@@ -122,4 +122,4 @@ public class Actividad6_12 {
 //1. No está la forma de escribirlo en invisible. Se me ha complicado bastante el ejercicio y
 // he decidido no complicarlo más...
 //2. Ok. He convertido la palabra en array y he codificado todos sus elementos en _
-//3.
+//3.  He buscado la funcion : char letra = scanner.next().toLowerCase().charAt(0);
